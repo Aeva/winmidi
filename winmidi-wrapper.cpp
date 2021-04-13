@@ -30,8 +30,8 @@ struct InputConnection
 	{
 		if (Live == BUFFER_SIZE)
 		{
-			++Cursor;
 			--Live;
+			Cursor = (Cursor + 1) % BUFFER_SIZE;
 		}
 		int Insert = (Cursor + Live++) % BUFFER_SIZE;
 		return &Buffer[Insert];
@@ -43,7 +43,9 @@ struct InputConnection
 		{
 			--Live;
 		}
-		return Buffer[Cursor++];
+		int Next = Cursor;
+		Cursor = (Cursor + 1) % BUFFER_SIZE;
+		return Buffer[Next];
 	}
 
 	bool DataReady()
